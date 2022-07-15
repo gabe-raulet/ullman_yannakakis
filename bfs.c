@@ -1,3 +1,4 @@
+#include "spgraph.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,6 +27,11 @@ int main(int argc, char *argv[])
         fprintf(stderr, "error: '%s' is not one of {'directed', 'undirected'}\n", directedness);
         return -1;
     }
+
+    FILE *fp = fopen(triples_filename, "r");
+    spgraph *g = spgraph_load(fp, directed);
+
+    spgraph_free(g);
 
     return 0;
 }
