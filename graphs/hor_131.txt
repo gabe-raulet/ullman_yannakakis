@@ -1,17 +1,3 @@
-%%MatrixMarket matrix coordinate real general
-%-------------------------------------------------------------------------------
-% UF Sparse Matrix Collection, Tim Davis
-% http://www.cise.ufl.edu/research/sparse/matrices/HB/hor_131
-% name: HB/hor_131
-% [UNSYMMETRIC MATRIX NNC  R.P.HORNBY JANUARY,1983.]
-% id: 167
-% date: 1983
-% author: R. Hornby
-% ed: I. Duff, R. Grimes, J. Lewis
-% fields: title A Zeros name id date author ed kind
-% kind: directed weighted graph
-%-------------------------------------------------------------------------------
-434 434 4710
 1 1 -.00306716674
 3 1 5.90480263e-6
 15 1 .000860481823
