@@ -20,5 +20,6 @@ typedef struct spgraph
 spgraph *spgraph_init(index_t n, index_t nz, index_t *ir, index_t *jc);
 spgraph *spgraph_load(FILE *f, int directed);
 void spgraph_free(spgraph *g);
+void spgraph_write(spgraph *g, FILE *f, int header);
 
 #endif

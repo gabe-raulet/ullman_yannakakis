@@ -54,8 +54,11 @@ spgraph *spgraph_load(FILE *f, int directed)
     ir = calloc(nzmax, sizeof(index_t));
     jc = calloc(nzmax, sizeof(index_t));
 
-    while (fscanf(f, "%lld %lld\n", &u, &v) == 2)
+    char line[1024];
+
+    while (fgets(line, 1024, f))
     {
+        assert(sscanf(line, "%lld %lld", &u, &v)==2);
         ir[nz] = u-1;
         jc[nz++] = v-1;
         n = MAX(n, MAX(u, v));
@@ -72,4 +75,41 @@ spgraph *spgraph_load(FILE *f, int directed)
     free(ir);
     free(jc);
     return g;
+}
+
+int index_compare(const void *_i1, const void *_i2)
+{
+    index_t i1 = *((index_t*)_i1);
+    index_t i2 = *((index_t*)_i2);
+
+    if (i1 < i2) return -1;
+    else if (i1 > i2) return 1;
+    else return 0;
+}
+
+#include <string.h>
+
+void spgraph_write(spgraph *g, FILE *f, int header)
+{
+    if (header) fprintf(f, "%lld %lld %lld\n", g->n, g->n, g->jc[g->n]);
+
+    index_t *rows = NULL;
+
+    for (index_t v = 0; v < g->n; ++v)
+    {
+        index_t nadj = g->jc[v+1] - g->jc[v];
+        if (nadj > 0)
+        {
+            rows = realloc(rows, nadj * sizeof(index_t));
+            memcpy(rows, g->ir + g->jc[v], nadj);
+            qsort(rows, nadj, sizeof(index_t), index_compare);
+            for (index_t p = g->jc[v]; p < g->jc[v+1]; ++p)
+            {
+                index_t u = g->ir[p];
+                fprintf(f, "%lld %lld\n", u+1, v+1);
+            }
+        }
+    }
+
+    free(rows);
 }

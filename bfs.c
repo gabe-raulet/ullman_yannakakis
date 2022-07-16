@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
 
     FILE *fp = fopen(triples_filename, "r");
     spgraph *g = spgraph_load(fp, directed);
+    spgraph_write(g, stdout, 1);
 
     spgraph_free(g);
 
