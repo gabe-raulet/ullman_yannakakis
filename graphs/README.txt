@@ -27,4 +27,4 @@ Graph Info
 
     graphs/small.mtx
         * 16 vertices
-        * 32 edges
+        * 34 edges

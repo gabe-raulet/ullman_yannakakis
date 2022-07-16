@@ -26,5 +26,6 @@ void spmat_free(spmat *A);
 void spmat_write(spmat *A, FILE *f, int header);
 void spmat_triples(const spmat *A, index_t **ir, index_t **jc, num_t **vals);
 spmat *spmat_transpose(const spmat *A);
+void spmat_spmv_bool(const spmat *A, index_t *x, index_t *mask, int invert_mask);
 
 #endif
