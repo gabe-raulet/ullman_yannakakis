@@ -25,6 +25,12 @@ Graph Info
         * 4710 edges
         * http://www.cise.ufl.edu/research/sparse/matrices/HB/hor_131
 
+    graphs/big.mtx
+
+        * 13209 vertices
+        * 91465 edges
+        * http://www.cise.ufl.edu/research/sparse/matrices/Gaertner/big
+
     graphs/small.mtx
         * 16 vertices
         * 34 edges
