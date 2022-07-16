@@ -1,0 +1,6 @@
+*.swp
+*.a
+*.o
+bfs
+transpose
+write_mtx
