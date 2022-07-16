@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     spmat *A, *AT;
 
     fp = fopen(argv[1], "r");
-    A = spmat_load(fp);
+    A = spmat_load(fp, 0);
     fclose(fp);
 
     AT = spmat_transpose(A);

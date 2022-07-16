@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     const index_t source = strtol(argv[2], NULL, 10) - 1;
 
     FILE *fp = fopen(mtx_filename, "r");
-    spmat *A = spmat_load(fp);
+    spmat *A = spmat_load(fp, 1);
     fclose(fp);
 
     index_t *paths = bfs(A, source);

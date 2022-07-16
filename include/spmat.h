@@ -21,7 +21,7 @@ typedef struct spmat
 #define MAX(a, b) (((a) < (b))? (b) : (a))
 
 spmat *spmat_init(index_t m, index_t n, index_t nz, index_t *ir, index_t *jc, num_t *vals);
-spmat *spmat_load(FILE *f);
+spmat *spmat_load(FILE *f, int assert_square);
 void spmat_free(spmat *A);
 void spmat_write(spmat *A, FILE *f, int header);
 void spmat_triples(const spmat *A, index_t **ir, index_t **jc, num_t **vals);

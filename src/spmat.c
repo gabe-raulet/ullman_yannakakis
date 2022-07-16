@@ -47,7 +47,7 @@ void spmat_free(spmat *A)
     free(A);
 }
 
-spmat *spmat_load(FILE *f)
+spmat *spmat_load(FILE *f, int assert_square)
 {
     index_t i, j, m, n, nz, nzmax, *ir, *jc;
     num_t v, *vals;
@@ -82,6 +82,8 @@ spmat *spmat_load(FILE *f)
             if (vals) vals = realloc(vals, nzmax * sizeof(num_t));
         }
     } while (fgets(line, 1024, f));
+
+    if (assert_square) m = n = MAX(m, n);
 
     A = spmat_init(m, n, nz, ir, jc, vals);
     free(ir);

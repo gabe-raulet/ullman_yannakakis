@@ -3,7 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-    spmat *A = spmat_load(stdin);
+    spmat *A = spmat_load(stdin, 0);
     spmat_write(A, stdout, 1);
     spmat_free(A);
 
