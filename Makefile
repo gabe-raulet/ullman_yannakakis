@@ -4,18 +4,19 @@ CFLAGS=-Wall -O2
 INCLUDES=-I./include
 AR=ar
 ARFLAGS=rcs
-OBJS=spmat.o
+OBJS=src/spmat.o
+PRGS=bfs transpose write_mtx
 LIB=libuy.a
 
-all: bfs write_mtx transpose
+all: $(PRGS)
 
-bfs: bfs.c $(LIB)
+bfs: prgs/bfs.o $(LIB)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
 
-transpose: transpose.c $(LIB)
+transpose: prgs/transpose.o $(LIB)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
 
-write_mtx: write_mtx.c $(LIB)
+write_mtx: prgs/write_mtx.o $(LIB)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
 
 lib: $(LIB)
@@ -23,13 +24,16 @@ lib: $(LIB)
 $(LIB): $(OBJS)
 	$(AR) $(ARFLAGS) $@ $^
 
-%.o: src/%.c
+src/%.o: src/%.c
+	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
+
+prgs/%.o: prgs/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 .PHONY: all clean purge
 
 clean:
-	rm -rf $(OBJS) *.dSYM
+	rm -rf $(OBJS) prgs/*.o *.dSYM
 
 purge: clean
-	rm -rf $(LIB) bfs transpose write_mtx
+	rm -rf $(LIB) $(PRGS)
