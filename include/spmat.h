@@ -22,5 +22,7 @@ spmat *spmat_init(index_t m, index_t n, index_t nz, index_t *ir, index_t *jc);
 spmat *spmat_load(FILE *f);
 void spmat_free(spmat *A);
 void spmat_write(spmat *A, FILE *f, int header);
+void spmat_triples(const spmat *A, index_t **ir, index_t **jc);
+spmat *spmat_transpose(const spmat *A);
 
 #endif

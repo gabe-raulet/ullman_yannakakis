@@ -45,7 +45,7 @@ void spmat_free(spmat *A)
 
 spmat *spmat_load(FILE *f)
 {
-    index_t u, v, m, n, nz, nzmax, *ir, *jc;
+    index_t i, j, m, n, nz, nzmax, *ir, *jc;
     spmat *A;
 
     if (!f) return NULL;
@@ -59,11 +59,11 @@ spmat *spmat_load(FILE *f)
 
     while (fgets(line, 1024, f))
     {
-        assert(sscanf(line, "%lld %lld", &u, &v)==2);
-        ir[nz] = u-1;
-        jc[nz++] = v-1;
-        m = MAX(m, u);
-        n = MAX(n, v);
+        assert(sscanf(line, "%lld %lld", &i, &j)==2);
+        ir[nz] = i-1;
+        jc[nz++] = j-1;
+        m = MAX(m, i);
+        n = MAX(n, j);
 
         if (nz >= nzmax)
         {
@@ -77,6 +77,35 @@ spmat *spmat_load(FILE *f)
     free(ir);
     free(jc);
     return A;
+}
+
+void spmat_triples(const spmat *A, index_t **ir, index_t **jc)
+{
+    index_t j, p, nz, *_ir, *_jc;
+
+    nz = A->jc[A->n];
+
+    _ir = *ir = malloc(nz * sizeof(index_t));
+    _jc = *jc = malloc(nz * sizeof(index_t));
+
+    for (j = 0; j < A->n; ++j)
+        for (p = A->jc[j]; p < A->jc[j+1]; ++p)
+        {
+            *_ir++ = A->ir[p];
+            *_jc++ = j;
+        }
+}
+
+spmat *spmat_transpose(const spmat *A)
+{
+    spmat *AT;
+    index_t *ir, *jc;
+
+    spmat_triples(A, &jc, &ir);
+    AT = spmat_init(A->n, A->m, A->jc[A->n], ir, jc);
+    free(ir);
+    free(jc);
+    return AT;
 }
 
 int index_compare(const void *_i1, const void *_i2)
@@ -94,24 +123,24 @@ int index_compare(const void *_i1, const void *_i2)
 
 void spmat_write(spmat *A, FILE *f, int header)
 {
-    index_t v, p, nadj, *rows;
+    index_t i, j, p, nadj, *rows;
 
     if (header) fprintf(f, "%lld %lld %lld\n", A->m, A->n, A->jc[A->n]);
 
     rows = NULL;
 
-    for (v = 0; v < A->n; ++v)
+    for (j = 0; j < A->n; ++j)
     {
-        nadj = A->jc[v+1] - A->jc[v];
+        nadj = A->jc[j+1] - A->jc[j];
         if (nadj > 0)
         {
             rows = realloc(rows, nadj * sizeof(index_t));
-            memcpy(rows, A->ir + A->jc[v], nadj);
+            memcpy(rows, A->ir + A->jc[j], nadj);
             qsort(rows, nadj, sizeof(index_t), index_compare);
-            for (p = A->jc[v]; p < A->jc[v+1]; ++p)
+            for (p = A->jc[j]; p < A->jc[j+1]; ++p)
             {
-                index_t u = A->ir[p];
-                fprintf(f, "%lld %lld\n", u+1, v+1);
+                i = A->ir[p];
+                fprintf(f, "%lld %lld\n", i+1, j+1);
             }
         }
     }

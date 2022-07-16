@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
     const char *triples_filename = argv[1];
     const char *directedness     = argv[2];
-    int64_t source_vertex        = strtol(argv[3], NULL, 10);
+    const int64_t source_vertex  = strtol(argv[3], NULL, 10);
     const char *paths_filename   = argv[4];
 
     int directed;
@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
 
     FILE *fp = fopen(triples_filename, "r");
     spmat *A = spmat_load(fp);
+    fclose(fp);
     spmat_write(A, stdout, 1);
 
     spmat_free(A);

@@ -7,9 +7,12 @@ ARFLAGS=rcs
 OBJS=spmat.o
 LIB=libuy.a
 
-all: bfs
+all: bfs transpose
 
 bfs: bfs.c $(LIB)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
+
+transpose: transpose.c $(LIB)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
 
 lib: $(LIB)
@@ -26,4 +29,4 @@ clean:
 	rm -rf $(OBJS) *.dSYM
 
 purge: clean
-	rm -rf $(LIB) bfs
+	rm -rf $(LIB) bfs transpose
