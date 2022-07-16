@@ -97,6 +97,7 @@ void spmat_triples(const spmat *A, index_t **ir, index_t **jc, num_t **vals)
     num_t *_vals;
 
     nz = A->jc[A->n];
+    _vals = NULL;
 
     _ir = *ir = malloc(nz * sizeof(index_t));
     _jc = *jc = malloc(nz * sizeof(index_t));

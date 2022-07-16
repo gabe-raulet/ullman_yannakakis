@@ -1,6 +1,6 @@
 CC=gcc-11
-CFLAGS=-Wall -O2
-# CFLAGS=-Wall -g -O0 -fsanitize=address -fno-omit-frame-pointer
+CFLAGS=-Wall -Werror -O2
+# CFLAGS=-Wall -Werror -g -O0 -fsanitize=address -fno-omit-frame-pointer
 INCLUDES=-I./include
 AR=ar
 ARFLAGS=rcs
