@@ -89,7 +89,7 @@ spmat *spmat_load(FILE *f)
     return A;
 }
 
-/* This function is undefined when: (vals != NULL) && A->vals == NULL) */
+/* This function has undefined behaviour when: (vals != NULL) && A->vals == NULL) */
 void spmat_triples(const spmat *A, index_t **ir, index_t **jc, num_t **vals)
 {
     index_t j, p, nz, *_ir, *_jc;
