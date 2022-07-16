@@ -77,7 +77,7 @@ index_t *bfs(const spmat *A, index_t source)
     frontier[source] = 1;
     levels[source] = level = 0;
 
-    while (vector_nzs(visited, n) < n)
+    while (vector_nzs(frontier, n) > 0)
     {
         ++level;
         vector_set(visited, frontier, 1, n);
