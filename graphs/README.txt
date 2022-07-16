@@ -1,45 +1,42 @@
-Graph Statistics
-----------------
+Graph Info
+----------
 
-    graphs/G67.txt:
+    graphs/G67.mtx:
 
         * undirected
         * 10000 vertices
         * 20000 edges
         * http://www.cise.ufl.edu/research/sparse/matrices/Gset/G67
 
-    graphs/ibm32.txt:
+    graphs/ibm32.mtx:
 
         * directed
         * 32 vertices
         * 126 edges
         * http://www.cise.ufl.edu/research/sparse/matrices/HB/ibm32
 
-    graphs/gre_115.txt:
+    graphs/gre_115.mtx:
 
         * directed
         * 115 vertices
         * 421 edges
         * http://www.cise.ufl.edu/research/sparse/matrices/HB/gre_115
 
-    graphs/gre_1107.txt:
+    graphs/gre_1107.mtx:
 
         * directed
         * 1107 vertices
         * 5664 edges
         * http://www.cise.ufl.edu/research/sparse/matrices/HB/gre_1107
 
-    graphs/hor_131.txt:
+    graphs/hor_131.mtx:
 
         * directed
         * 434 vertices
         * 4710 edges
         * http://www.cise.ufl.edu/research/sparse/matrices/HB/hor_131
 
-Graph Curation Steps
---------------------
-
-    1. Obtain a matrix market file somewhere (preferably from the SuiteSparse collection)
-    2. Remove all lines that start with '%'
-    3. Remove header listing number of rows/columns/nonzeros
-    4. Remove value column (the third one) if present
+    graphs/small.mtx
+        * undirected
+        * 16 vertices
+        * 32 edges
