@@ -4,7 +4,7 @@ CFLAGS=-Wall -O2
 INCLUDES=-I./include
 AR=ar
 ARFLAGS=rcs
-OBJS=spgraph.o
+OBJS=spmat.o
 LIB=libuy.a
 
 all: bfs

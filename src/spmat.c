@@ -1,14 +1,15 @@
-#include "spgraph.h"
+#include "spmat.h"
 
-spgraph *spgraph_init(index_t n, index_t nz, index_t *ir, index_t *jc)
+spmat *spmat_init(index_t m, index_t n, index_t nz, index_t *ir, index_t *jc)
 {
     index_t k, p, nzcnt, *colcnts;
-    spgraph *g;
+    spmat *A;
 
-    g = malloc(sizeof(spgraph));
-    g->n = n;
-    g->ir = malloc(nz * sizeof(index_t));
-    g->jc = calloc(n+1, sizeof(index_t));
+    A = malloc(sizeof(spmat));
+    A->m = m;
+    A->n = n;
+    A->ir = malloc(nz * sizeof(index_t));
+    A->jc = calloc(n+1, sizeof(index_t));
     colcnts = calloc(n+1, sizeof(index_t));
 
     for (k = 0; k < nz; ++k)
@@ -17,39 +18,39 @@ spgraph *spgraph_init(index_t n, index_t nz, index_t *ir, index_t *jc)
     nzcnt = 0;
     for (k = 0; k < n; ++k)
     {
-        g->jc[k] = nzcnt;
+        A->jc[k] = nzcnt;
         nzcnt += colcnts[k];
-        colcnts[k] = g->jc[k];
+        colcnts[k] = A->jc[k];
     }
     assert(nzcnt == nz);
-    g->jc[n] = nzcnt;
+    A->jc[n] = nzcnt;
 
     for (k = 0; k < nz; ++k)
     {
         p = colcnts[jc[k]]++;
-        g->ir[p] = ir[k];
+        A->ir[p] = ir[k];
     }
     free(colcnts);
-    return g;
+    return A;
 }
 
-void spgraph_free(spgraph *g)
+void spmat_free(spmat *A)
 {
-    if (!g) return;
-    g->n = 0;
-    free(g->jc);
-    free(g->ir);
-    free(g);
+    if (!A) return;
+    A->m = A->n = 0;
+    free(A->jc);
+    free(A->ir);
+    free(A);
 }
 
-spgraph *spgraph_load(FILE *f, int directed)
+spmat *spmat_load(FILE *f)
 {
-    index_t u, v, n, nz, nzmax, *ir, *jc;
-    spgraph *g;
+    index_t u, v, m, n, nz, nzmax, *ir, *jc;
+    spmat *A;
 
-    if (!f || !directed) return NULL;
+    if (!f) return NULL;
 
-    n = nz = 0;
+    m = n = nz = 0;
     nzmax = 16;
     ir = calloc(nzmax, sizeof(index_t));
     jc = calloc(nzmax, sizeof(index_t));
@@ -61,7 +62,8 @@ spgraph *spgraph_load(FILE *f, int directed)
         assert(sscanf(line, "%lld %lld", &u, &v)==2);
         ir[nz] = u-1;
         jc[nz++] = v-1;
-        n = MAX(n, MAX(u, v));
+        m = MAX(m, u);
+        n = MAX(n, v);
 
         if (nz >= nzmax)
         {
@@ -71,10 +73,10 @@ spgraph *spgraph_load(FILE *f, int directed)
         }
     }
 
-    g = spgraph_init(n, nz, ir, jc);
+    A = spmat_init(m, n, nz, ir, jc);
     free(ir);
     free(jc);
-    return g;
+    return A;
 }
 
 int index_compare(const void *_i1, const void *_i2)
@@ -90,25 +92,25 @@ int index_compare(const void *_i1, const void *_i2)
 
 #include <string.h>
 
-void spgraph_write(spgraph *g, FILE *f, int header)
+void spmat_write(spmat *A, FILE *f, int header)
 {
     index_t v, p, nadj, *rows;
 
-    if (header) fprintf(f, "%lld %lld %lld\n", g->n, g->n, g->jc[g->n]);
+    if (header) fprintf(f, "%lld %lld %lld\n", A->m, A->n, A->jc[A->n]);
 
     rows = NULL;
 
-    for (v = 0; v < g->n; ++v)
+    for (v = 0; v < A->n; ++v)
     {
-        nadj = g->jc[v+1] - g->jc[v];
+        nadj = A->jc[v+1] - A->jc[v];
         if (nadj > 0)
         {
             rows = realloc(rows, nadj * sizeof(index_t));
-            memcpy(rows, g->ir + g->jc[v], nadj);
+            memcpy(rows, A->ir + A->jc[v], nadj);
             qsort(rows, nadj, sizeof(index_t), index_compare);
-            for (p = g->jc[v]; p < g->jc[v+1]; ++p)
+            for (p = A->jc[v]; p < A->jc[v+1]; ++p)
             {
-                index_t u = g->ir[p];
+                index_t u = A->ir[p];
                 fprintf(f, "%lld %lld\n", u+1, v+1);
             }
         }

@@ -1,4 +1,4 @@
-#include "spgraph.h"
+#include "spmat.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,10 +29,10 @@ int main(int argc, char *argv[])
     }
 
     FILE *fp = fopen(triples_filename, "r");
-    spgraph *g = spgraph_load(fp, directed);
-    spgraph_write(g, stdout, 1);
+    spmat *A = spmat_load(fp);
+    spmat_write(A, stdout, 1);
 
-    spgraph_free(g);
+    spmat_free(A);
 
     return 0;
 }
