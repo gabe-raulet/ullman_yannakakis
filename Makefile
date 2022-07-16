@@ -7,12 +7,15 @@ ARFLAGS=rcs
 OBJS=spmat.o
 LIB=libuy.a
 
-all: bfs transpose
+all: bfs write_mtx transpose
 
 bfs: bfs.c $(LIB)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
 
 transpose: transpose.c $(LIB)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
+
+write_mtx: write_mtx.c $(LIB)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
 
 lib: $(LIB)
@@ -29,4 +32,4 @@ clean:
 	rm -rf $(OBJS) *.dSYM
 
 purge: clean
-	rm -rf $(LIB) bfs transpose
+	rm -rf $(LIB) bfs transpose write_mtx
