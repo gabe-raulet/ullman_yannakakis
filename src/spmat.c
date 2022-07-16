@@ -60,10 +60,10 @@ spmat *spmat_load(FILE *f)
     while (fgets(line, 1024, f))
     {
         assert(sscanf(line, "%lld %lld", &i, &j)==2);
-        ir[nz] = i-1;
-        jc[nz++] = j-1;
-        m = MAX(m, i);
-        n = MAX(n, j);
+        ir[nz] = i;
+        jc[nz++] = j;
+        m = MAX(m, i+1);
+        n = MAX(n, j+1);
 
         if (nz >= nzmax)
         {
@@ -140,7 +140,7 @@ void spmat_write(spmat *A, FILE *f, int header)
             for (p = A->jc[j]; p < A->jc[j+1]; ++p)
             {
                 i = A->ir[p];
-                fprintf(f, "%lld %lld\n", i+1, j+1);
+                fprintf(f, "%lld %lld\n", i, j);
             }
         }
     }
