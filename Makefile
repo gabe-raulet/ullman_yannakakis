@@ -26,13 +26,16 @@ LIB=libuy.a
 all: $(PRGS)
 
 $(PRGS): %: prgs/%.o $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
+	@echo "CC -o $@"
+	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
 
 src/%.o: src/%.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
+	@echo "CC -c -o $@"
+	@$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 prgs/%.o: prgs/%.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
+	@echo "CC -c -o $@"
+	@$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 lib: $(LIB)
 
@@ -42,7 +45,7 @@ $(LIB): $(OBJS)
 .PHONY: all clean purge
 
 clean:
-	rm -rf $(OBJS) prgs/*.o *.dSYM
+	@rm -rf $(OBJS) prgs/*.o *.dSYM
 
 purge: clean
-	rm -rf $(LIB) $(PRGS)
+	@rm -rf $(LIB) $(PRGS)
