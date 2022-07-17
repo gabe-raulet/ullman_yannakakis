@@ -25,19 +25,19 @@ LIB=libuy.a
 
 all: $(PRGS)
 
-$(PRGS): %: prgs/%.o $(LIB)
+$(PRGS): %: prgs/%.o $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $^
-
-lib: $(LIB)
-
-$(LIB): $(OBJS)
-	$(AR) $(ARFLAGS) $@ $^
 
 src/%.o: src/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
 prgs/%.o: prgs/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
+
+lib: $(LIB)
+
+$(LIB): $(OBJS)
+	$(AR) $(ARFLAGS) $@ $^
 
 .PHONY: all clean purge
 
