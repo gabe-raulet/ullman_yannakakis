@@ -17,8 +17,10 @@ INCLUDES=-I./include
 AR=ar
 ARFLAGS=rcs
 
-OBJS=$(patsubst %.c, %.o, $(wildcard src/*.c))
 PRGS=bfs transpose write_mtx
+
+OBJS=$(patsubst %.c, %.o, $(wildcard src/*.c))
+
 LIB=libuy.a
 
 all: $(PRGS)
