@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <inttypes.h>
 
 void vector_write(const index_t *v, FILE *f, index_t n, int indices);
 void vector_set(index_t *v, const index_t *x, index_t val, index_t n);
@@ -37,8 +38,8 @@ void vector_write(const index_t *v, FILE *f, index_t n, int indices)
     index_t i;
     for (i = 0; i < n; ++i)
     {
-        if (indices) fprintf(f, "%lld %lld\n", i+1, v[i]);
-        else fprintf(f, "%lld\n", v[i]);
+        if (indices) fprintf(f, "%" PRId64 " %" PRId64 "\n", i+1, v[i]);
+        else fprintf(f, "%" PRId64 "\n", v[i]);
     }
 }
 

@@ -1,4 +1,5 @@
 #include "spmat.h"
+#include <inttypes.h>
 
 spmat *spmat_load(FILE *f, int assert_square)
 {
@@ -16,11 +17,11 @@ spmat *spmat_load(FILE *f, int assert_square)
     ir = malloc(nzmax * sizeof(index_t));
     jc = malloc(nzmax * sizeof(index_t));
 
-    vals = (sscanf(line, "%lld %lld %lg", &i, &j, &v) == 2)? NULL : malloc(nzmax * sizeof(num_t));
+    vals = (sscanf(line, "%" PRId64 " %" PRId64 " %lg", &i, &j, &v) == 2)? NULL : malloc(nzmax * sizeof(num_t));
 
     do
     {
-        sscanf(line, "%lld %lld %lg", &i, &j, &v);
+        sscanf(line, "%" PRId64 " %" PRId64 " %lg", &i, &j, &v);
         ir[nz] = i-1;
         jc[nz] = j-1;
         if (vals) vals[nz] = v;
@@ -49,13 +50,13 @@ void spmat_write(spmat *A, FILE *f, int header)
 {
     index_t i, j, p;
 
-    if (header) fprintf(f, "%lld %lld %lld\n", A->m, A->n, A->jc[A->n]);
+    if (header) fprintf(f, "%" PRId64 " %" PRId64 " %" PRId64 "\n", A->m, A->n, A->jc[A->n]);
 
     for (j = 0; j < A->n; ++j)
         for (p = A->jc[j]; p < A->jc[j+1]; ++p)
         {
             i = A->ir[p];
-            if (A->vals) fprintf(f, "%lld %lld %lg\n", i+1, j+1, A->vals[p]);
-            else fprintf(f, "%lld %lld\n", i+1, j+1);
+            if (A->vals) fprintf(f, "%" PRId64 " %" PRId64 " %lg\n", i+1, j+1, A->vals[p]);
+            else fprintf(f, "%" PRId64 " %" PRId64 "\n", i+1, j+1);
         }
 }
