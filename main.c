@@ -51,12 +51,17 @@ int main(int argc, char *argv[])
         fs = NULL;
     }
 
-    fp = fopen(levels_filename, "r");
+    fp = fopen(levels_filename, "w");
 
     for (i = 0; i < n; ++i)
-        fprintf(fp, "%ld %d\n", i, w[i]);
+        fprintf(fp, "%ld %ld\n", i, w[i]);
 
     fclose(fp);
+
+    free(w);
+    bitmap_free(f);
+    bitmap_free(v);
+    spmat_free(A);
 
     return 0;
 }

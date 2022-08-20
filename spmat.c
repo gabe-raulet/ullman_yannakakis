@@ -6,7 +6,7 @@
 spmat* spmat_init(long nrows, long ncols, long nnz, const long *rowidxs, const long *colidxs)
 {
     spmat *mat;
-    long *ir, *jc, *colcnts, k, p, nzcnt;
+    long *ir, *jc, *colcnts, k, nzcnt;
 
     ir = malloc(nnz * sizeof(long));
     jc = calloc(ncols+1, sizeof(long));

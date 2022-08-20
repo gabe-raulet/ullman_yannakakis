@@ -63,7 +63,7 @@ long bitmap_next(const bitmap *b, long pos)
 
 long bitmap_indices(const bitmap *b, long *sparse)
 {
-    long pos, size, i;
+    long pos, i;
 
     i = pos = 0;
 
@@ -128,9 +128,6 @@ void bitmap_union_update(bitmap *b, const bitmap *c)
 
 void bitmap_apply(const bitmap *b, long *w, long x)
 {
-    long n = b->n;
-    long nitems = bitmap_items(n);
-
     long pos = 0;
 
     if (bitmap_get(b, pos))
@@ -147,7 +144,6 @@ void bitmap_apply(const bitmap *b, long *w, long x)
 void bitmap_print(const bitmap *b)
 {
     long n = b->n;
-    long nitems = bitmap_items(n);
 
     char *s = malloc(n+1);
     s[n] = 0;
